@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
@@ -35,9 +36,28 @@ func main() {
 		panic(err)
 	}
 
+	g1 := xxxxxx(res[0])
+	g2 := xxxxxx(res[1])
+	g1.Add(g1, g2)
+
+	fmt.Println(bn254.NewG1().ToBytes(M))
+	fmt.Println(g1.Marshal())
+}
+
+func xxxxxx(b *big.Int) *bn256.G1 {
+	xx, yy := mapToPoint(b)
+
+	pointBytes := bytes.Buffer{}
+	pointBytes.Write(xx.Bytes())
+	pointBytes.Write(yy.Bytes())
+
 	g1 := new(bn256.G1)
-	p0 := res[0]
-	// ??
+	_, err := g1.Unmarshal(pointBytes.Bytes())
+	if err != nil {
+		panic(err)
+	}
+
+	return g1
 }
 
 func main3() {
